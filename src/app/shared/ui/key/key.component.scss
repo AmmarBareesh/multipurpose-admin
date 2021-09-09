@@ -1,0 +1,87 @@
+.cardKey{
+    border: 1px solid #e3e3e3;
+    min-height: 300px;
+    padding: 19px;
+    position: relative;
+}
+.cardKey .cardImage{
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 7px #ebe6e6;
+    height: 100%;
+    .cardBody{
+        display: inline-block;
+        height: 100%;
+    }
+}
+.cardKey .cardChar{
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 7px #ebe6e6;
+}
+.cardKey .cardText{
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 7px #ebe6e6;
+}
+.cardKey .cardGallery{
+    text-align: center;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 7px #ebe6e6;
+    .Gallery{
+        width: 100%;
+        min-height: 350px;
+        text-align: left;
+        background: #fff;
+        padding: 10px;
+        .header{
+            max-height: 34px;
+        }
+        .body{
+            width: 100%;
+            border: 1px dashed #b8b4b4;
+            height: 290px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin-top: 5px;
+            display: flow-root;
+            .boxImage{
+                width: 200px;
+                border: 1px solid #cdcdcd;
+                margin: 5px;
+                padding: 10px;
+                height: fit-content;
+                display: inline-block;
+                img{
+                    width: 100%;
+                }
+                button{
+                    width: 100%;
+                }
+            }
+            .boxImage:hover{
+                background: #586674;
+            }
+        }
+    }
+}
+
+.cardKey .cardImage img{
+    width: 100%;
+    height: 89%;
+    cursor: pointer;
+    object-fit: contain;
+    
+}
+.cardKey .btnAddElement{
+    position: absolute;
+    top: -20px;
+    left: 0;
+    z-index: 99;
+}
+.cardKey .cardInformation{
+    width: 100%;
+    height: 26px;
+    border: 1px dashed;
+    margin-top: 3px;
+}

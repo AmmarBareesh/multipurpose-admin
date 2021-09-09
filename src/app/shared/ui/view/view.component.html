@@ -1,0 +1,205 @@
+
+<div class="container-fluid">
+  <app-page-title title="{{titleHeader}}" [breadcrumbItems]="title"></app-page-title>
+
+  <div class="card-box">
+    <div class="row">
+      <div class="col-md-6">
+        <button type="button" class="btn btn-outline-success" style="margin-bottom: 50px;" (click)="AddModel(ModelForm)"><i class="fe-user-plus"></i> إضافة</button>
+      </div>
+    </div>
+
+    <div class="row mb-md-2">
+      <div class="col-sm-12 col-md-6">
+        <div class="dataTables_length" id="tickets-table_length"><label
+            class="d-inline-flex align-items-center"> إظهار 
+            <select name="tickets-table_length" (change)="changeLimit($event)" aria-controls="tickets-table" name="pageSize" class="custom-select custom-select-sm form-control form-control-sm mx-2" style="margin-left: 10px !important;">
+              <option >10</option>
+              <option >25</option>
+              <option >50</option>
+              <option >100</option>
+            </select>  سجلات </label>
+          </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div id="tickets-table_filter" class="dataTables_filter text-md-right">
+          <label
+            class="d-inline-flex align-items-center">بحث:
+            <input type="text" id="searchTerm" #searchTerm class="form-control form-control-sm ml-2" aria-controls="tickets-table" style="border-radius: 0px;"><a class="btn btn-outline-info" (click)="seachTable(searchTerm.value)" style="height: 31px;"><i class="fe-search"></i></a></label>
+          </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-centered table-borderless table-hover mb-0">
+        <thead>
+          <tr>
+            <th style="background-color: #f1f5f7;" *ngFor="let Colum of columns">{{Colum.label}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of data">
+            <td *ngFor="let C of columns" >
+              <main *ngIf="C.type=='costom'">{{d[C.name]==1?'LRT':'RTL'}}</main>
+              <main *ngIf="C.type=='text'">{{d[C.name]}}</main>
+              <main *ngIf="C.type=='date'">{{d[C.name] |date}}</main>
+              <main *ngIf="C.type=='lang'">
+                <button *ngFor="let lang of Languages" class="btn btn-sm" (click)="EditModel(Colum[C.id],ModelContentForm,lang.id,lang.codeLang)" style="font-weight: bold;font-family: 'feather';margin-right:2px;color: #6b7a88;padding: 5px;">{{lang.codeLang}}</button>
+              </main>
+              <main *ngIf="C.type=='image'"><img src="{{C.server+'/'+d[C.name]}}" class="imageRess"></main>
+              <main *ngIf="C.type=='imagetext'"><img src="{{d[C.name]}}" class="imageRess"> {{d[C.text]}}</main>
+              <main *ngIf="C.type=='switsh'"><ui-switch defaultBoColor="#dfdfdf" color="#00b19d" defaultBgColor="#ED5565" (change)="Status($event,d[C.id])" [checked]="d[C.name]==1"></ui-switch></main>
+              <main *ngIf="C.type=='btn'">
+                <button type="button" class="btn btn-outline-success" (click)="EditModel(d[C.id],ModelForm)" *ngIf="btns && btns['update']" style="margin: 0px 4px;"><i class="fe-edit"></i></button>
+                <button  type="button" class="btn btn-outline-info" (click)="Printer(d[C.id],modelProduct,d)" *ngIf="btns && btns['pinter']"  style="margin: 0px 4px;"><i class="fe-printer"></i></button>
+                <button  type="button" class="btn btn-outline-primary" (click)="EditModelMap(d[C.id],modelProduct,d)" *ngIf="btns && btns['mapProduct']"  style="margin: 0px 4px;"><i class="fe-map"></i></button>
+                <button  type="button" class="btn btn-outline-danger" (click)="DeleteModel(d[C.id])" *ngIf="btns && btns['delete']"   style="margin: 0px 4px;"><i class="fe-trash"></i></button>
+                <button  type="button" class="btn btn-outline-secondary" (click)="showId(modelIdCard,d)" *ngIf="btns && btns['showID']"   style="margin: 0px 4px;"><i class="fe-command"></i></button>
+              </main>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <td colspan="50" style="text-align: center;"><h5>{{footerTable}}</h5></td>
+        </tfoot>
+      </table>
+      <div class="btn-group mb-1">
+        <button _ngcontent-ook-c42="" type="button" class="btn {{page.active?'btn-primary btn-primary-success':'btn-outline-success'}} btn-rounded ng-star-inserted" *ngFor="let page of pageSize" (click)="changeOffset(page)" [innerHTML]="page.html" [disabled]="page.disabled"></button>
+    </div>
+    </div> 
+  </div>
+</div>
+
+
+
+
+<ng-template #ModelForm let-modal="close">
+  <app-ui-preloader [display]="formLoading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">{{TitleForm}}</h4>
+      <button type="button" class="close" (click)="CloseModel()" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4">
+      <div class="row" >
+        <app-kform style="width: 100%;display: flex;flex-wrap: wrap;" (onLoad)="loadEevent()" >
+          <div *ngFor="let input of inputs" class="col-md-{{input.col}}">
+            <div class="form-group" *ngIf="input.type=='email'">
+              <label for="field-1" class="control-label">{{input.label}}</label>
+              <input type="email" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+              <a style="color: red;" id="{{input.name}}"></a>
+            </div>
+            <div class="form-group" *ngIf="input.type=='date'">
+              <label for="field-1" class="control-label">{{input.label}}</label>
+              <input type="date" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+              <a style="color: red;" id="{{input.name}}"></a>
+            </div>
+            <div class="form-group" *ngIf="input.type=='time'">
+              <label for="field-1" class="control-label">{{input.label}}</label>
+              <input type="time" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+              <a style="color: red;" id="{{input.name}}"></a>
+            </div>
+            <div class="form-group" *ngIf="input.type=='number'">
+              <label for="field-1" class="control-label">{{input.label}}</label>
+              <input type="number" class="form-control" kform  name="{{input.name}}" minLength="4"  maxLength="{{input.length}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+              <a style="color: red;" id="{{input.name}}"></a>
+            </div>
+            <div class="form-group" *ngIf="input.type=='text'">
+                <label for="field-1" class="control-label">{{input.label}}</label>
+                <input type="text" (blur)="loadEevent()" class="form-control" kform  name="{{input.name}}" minLength="4"  maxLength="{{input.length}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+                <a style="color: red;" id="{{input.name}}"></a>
+            </div>
+            <div class="form-group" *ngIf="input.type=='select'">
+              <label for="field-1" class="control-label" >{{input.label}}</label>
+              <select class="form-control" id="{{input.name}}"  kform name="{{input.name}}">
+                <option *ngFor="let value of input.options" value="{{value.value}}">{{value.label}}</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="input.type=='phone'"  style="direction: ltr;width: 100%;">
+              <label for="field-1" class="control-label" >{{input.label}}</label>
+              <app-tell nameStatic="{{input.name}}" (tell)="setTell($event)"  [valueNumber]="tellElement[input.name].value"></app-tell>
+            </div>
+            <div class="form-group" *ngIf="input.type=='edit'" style="min-height: 200px;">
+              <label for="field-1" class="control-label" >{{input.label}}</label>
+              <app-keditor [IDEDIT]="input.name" [VALUEEDIT]="editorC[input.name].value" id="{{input.name}}" (getEditor)="getEditor($event)" (selectImage)="editImage('edit',input.name)" ></app-keditor>
+            </div>
+            <div class="form-group" *ngIf="input.type=='gallery'">
+              <div class="Gallery">
+                <div class="header">
+                  <button  type="button" class="btn btn-outline-info btn-sm" (click)="editImage('gallery',input.name)"><i class="mdi mdi-image-plus"></i></button>
+                  <label for="field-1" class="control-label" style=" float: right;">{{input.label}}</label>
+                </div>
+                <div class="body">
+                  <div class="boxImage" *ngFor="let image of gallerys[input.name];let i=index;">
+                    <img src="{{UPLOADPATH+image}}" >
+                    <button  type="button" class="btn btn-outline-danger btn-sm" (click)="removeImageGaleery(input.name,i,'gallery')"><i class="mdi mdi-trash-can"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="input.type=='file'">
+              <div class="Gallery">
+                <div class="header">
+                  <button  type="button" class="btn btn-outline-info btn-sm" (click)="editImage('file',input.name)"><i class="mdi mdi-file"></i></button>
+                  <label for="field-1" class="control-label" style=" float: right;">{{input.label}}</label>
+                </div>  
+                <div class="body">
+                  <div class="boxImage" *ngFor="let file of fileList[input.name];let i=index;">
+                    <img src="https://icon-library.com/images/png-file-icon/png-file-icon-13.jpg">
+                    <button  type="button" class="btn btn-outline-danger btn-sm" (click)="removeImageGaleery(input.name,i,'file')" style="width: auto;float: right;"><i class="mdi mdi-trash-can"></i></button>
+                    <a  type="button" class="btn btn-outline-success btn-sm" target="_blank" href="{{UPLOADPATH+file}}" style="width: auto;" download><i class="fe-download"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="input.type=='image'">
+              <label for="field-1" class="control-label" >{{input.label}}</label>
+              <div class="cardBody" (click)="editImage('image',input.name)">
+                <img src="{{UPLOADPATH+images[input.name]}}" style="width: 100%;">
+              </div>
+            </div>
+
+          </div>
+        </app-kform>
+
+
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary waves-effect" (click)="CloseModel()">إلغاء الأمر</button>
+      <button type="button" class="btn btn-info" (click)="create()" *ngIf="typeForm==0">إضافة</button>
+      <button type="button" class="btn btn-info" (click)="update()" *ngIf="typeForm==1">حفظ</button>
+  </div>
+</ng-template>
+<ng-template #modelFileManager let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">Select Image</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4">
+    <app-file-manager (selectImage)="selectImagePath($event)" [typeFiles]="typeFiles"></app-file-manager>
+  </div>
+</ng-template>
+
+<ng-template #modelProduct let-modal="close">
+  <app-ui-preloader [display]="mapLoading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">خريطة المشروع رقم {{projects.id}}</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4" style="max-height: 500px;overflow: scroll;" dir="ltr">
+    <app-maps-project [opjectArray]="maps" (fabricZ)="setFabricZ($event)" [projects]="projects"></app-maps-project>
+  </div>
+  <div class="modal-footer">
+    <button (click)="saveMap()" class="btn btn-outline-info">save</button>
+  </div>
+</ng-template>
+<ng-template #modelIdCard let-modal="close">
+  <app-ui-preloader [display]="mapLoading"></app-ui-preloader>
+  <div class="modal-header">
+      <h4 class="modal-title">هوية انتساب</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4" style="max-height: 500px;overflow: scroll;">
+    <app-id-card [data]="data"></app-id-card>
+  </div>
+</ng-template>

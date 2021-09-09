@@ -1,0 +1,99 @@
+<!-- Topbar Start -->
+<div class="navbar-custom">
+  <ul class="list-unstyled topnav-menu float-right mb-0">
+
+    <li class="d-none d-sm-block">
+      <form class="app-search">
+        <div class="app-search-box">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+              <button class="btn" type="submit">
+                <i class="fe-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </li>
+
+    <li class="dropdown notification-list" ngbDropdown>
+      <a class="nav-link dropdown-toggle  waves-effect waves-light" href="javascript: void(0);" role="button"
+        aria-haspopup="false" aria-expanded="false" ngbDropdownToggle id="notificationDropdown">
+        <i class="fe-bell noti-icon"></i>
+        <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg"
+        aria-labelledby="notificationDropdown" ngbDropdownMenu>
+
+        <!-- item-->
+        <div class="dropdown-item noti-title" ngbDropdownItem>
+          <h5 class="m-0">
+            <span class="float-right">
+              <a href="javascript: void(0);" class="text-dark">
+                <small>مسح الكل</small>
+              </a>
+            </span>الاشعارات
+          </h5>
+        </div>
+
+        <div id="notification-items" class="slimscroll noti-scroll" appSlimScroll>
+          <!-- item-->
+          <a *ngFor="let notification of notificationItems;" href="{{ notification.redirectTo }}"
+            class="dropdown-item notify-item" ngbDropdownItem>
+            <div class="notify-icon bg-soft-{{ notification.bgColor }} text-{{ notification.bgColor }}">
+              <i class="{{ notification.icon }}"></i>
+            </div>
+            <p class="notify-details">{{ notification.text }}
+              <small class="text-muted">{{ notification.subText }}</small>
+            </p>
+          </a>
+        </div>
+
+        <!-- All-->
+        <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+          مشاهدة الكل
+        </a>
+      </div>
+    </li>
+
+
+
+
+    <li class="dropdown notification-list">
+      <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light" (click)="toggleRightSidebar()">
+        <i class="fa fa-info-circle" style="color: #1D4379;font-size: 18px;"></i>
+      </a>
+    </li>
+
+
+  </ul>
+
+  <!-- LOGO -->
+  <div class="logo-box">
+    <a href="/" class="logo text-center">
+      <span class="logo-lg" style="text-align: right;
+      padding-right: 10px;">
+        <img src="assets/images/logo.svg" alt="" height="53">
+        <label style="margin-right: 25px;
+        font-size: 19px;color: #1d4379;font-family: 'Tajawal', sans-serif;">جمعية التربية</label>
+        <!-- <span class="logo-lg-text-light">Xeria</span> -->
+      </span>
+      <span class="logo-sm">
+        <!-- <span class="logo-sm-text-dark">X</span> -->
+        <img src="assets/images/logo.svg" alt="" height="24">
+      </span>
+    </a>
+  </div>
+
+  <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+    <li>
+      <button class="button-menu-mobile waves-effect waves-light" (click)="toggleMobileMenu($event)">
+        <i class="fe-menu"></i>
+      </button>
+    </li>
+
+
+  </ul>
+</div>
+<!-- end Topbar -->

@@ -1,0 +1,31 @@
+
+<button class="btn btn-outline-info" (click)="printerId('cardId')"><i class="fe-printer"></i></button>
+<div id="cardId" class='card'>
+  <header>
+    <h1>جمعية التربية</h1>
+    <img src="assets/images/logo.png" alt="" class="logo">
+  </header>
+  <article>
+    <img alt='My Pic' id='thumb' src="{{serverPath+'/'+data[0].image}}">
+    <h2>الاسم</h2>
+    <div class='area'>
+      <h3>الوصف</h3>
+      <ul>
+        <li>
+          رقم العضوية : {{data[0].id}}
+        </li>
+        <li>
+          تاريخ الانتساب : {{data[0].addDate|date}} 
+        </li>
+        <li>
+          الوظيفة : {{data[0].jobTitle}} 
+        </li>
+
+        <li>
+          العنوان : {{data[0].address}} 
+        </li>
+
+      </ul>
+    </div>
+  </article>
+</div>

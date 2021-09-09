@@ -1,0 +1,95 @@
+<div class="row" >
+  <app-kform class="row"  (onLoad)="loadEevent()">
+    <div *ngFor="let input of inputs" class="col-md-{{input.col}}">
+      <div class="form-group" *ngIf="input.type=='email'">
+        <label for="field-1" class="control-label">{{input.label}}</label>
+        <input type="email" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+        <a style="color: red;" id="{{input.name}}"></a>
+      </div>
+      <div class="form-group" *ngIf="input.type=='date'">
+        <label for="field-1" class="control-label">{{input.label}}</label>
+        <input type="date" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+        <a style="color: red;" id="{{input.name}}"></a>
+      </div>
+      <div class="form-group" *ngIf="input.type=='time'">
+        <label for="field-1" class="control-label">{{input.label}}</label>
+        <input type="time" class="form-control" kform  name="{{input.name}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+        <a style="color: red;" id="{{input.name}}"></a>
+      </div>
+      <div class="form-group" *ngIf="input.type=='number'">
+        <label for="field-1" class="control-label">{{input.label}}</label>
+        <input type="number" class="form-control" kform  name="{{input.name}}" minLength="4"  maxLength="{{input.length}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+        <a style="color: red;" id="{{input.name}}"></a>
+      </div>
+      <div class="form-group" *ngIf="input.type=='text'">
+          <label for="field-1" class="control-label">{{input.label}}</label>
+          <input type="text" (blur)="loadEevent()" class="form-control" kform  name="{{input.name}}" minLength="4"  maxLength="{{input.length}}"   placeholder="{{input.label}}" [attr.kerror]="input.error" required="">
+          <a style="color: red;" id="{{input.name}}"></a>
+      </div>
+      <div class="form-group" *ngIf="input.type=='select'">
+        <label for="field-1" class="control-label" >{{input.label}}</label>
+        <select class="form-control" id="{{input.name}}"  kform name="{{input.name}}">
+          <option *ngFor="let value of input.options" value="{{value.value}}">{{value.label}}</option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="input.type=='phone'"  style="direction: ltr;width: 100%;">
+        <label for="field-1" class="control-label" >{{input.label}}</label>
+        <app-tell nameStatic="{{input.name}}" (tell)="setTell($event)" *ngIf="phoneEDit" [valueNumber]="tellElement[input.name].value"></app-tell>
+      </div>
+      <div class="form-group" *ngIf="input.type=='edit'" style="min-height: 200px;">
+        <label for="field-1" class="control-label" >{{input.label}}</label>
+        <app-keditor [IDEDIT]="input.name" [VALUEEDIT]="editorC[input.name].value" id="{{input.name}}" (getEditor)="getEditor($event)" (selectImage)="editImage('edit',input.name)" ></app-keditor>
+      </div>
+      <div class="form-group" *ngIf="input.type=='gallery'">
+        <div class="Gallery">
+          <div class="header">
+            <button  type="button" class="btn btn-outline-info btn-sm" (click)="editImage('gallery',input.name)"><i class="mdi mdi-image-plus"></i></button>
+            <label for="field-1" class="control-label" style=" float: right;">{{input.label}}</label>
+          </div>
+          <div class="body">
+            <div class="boxImage" *ngFor="let image of gallerys[input.name];let i=index;">
+              <img src="{{UPLOADPATH+image}}" >
+              <button  type="button" class="btn btn-outline-danger btn-sm" (click)="removeImageGaleery(input.name,i,'gallery')"><i class="mdi mdi-trash-can"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="input.type=='file'">
+        <div class="Gallery">
+          <div class="header">
+            <button  type="button" class="btn btn-outline-info btn-sm" (click)="editImage('file',input.name)"><i class="mdi mdi-file"></i></button>
+            <label for="field-1" class="control-label" style=" float: right;">{{input.label}}</label>
+          </div>  
+          <div class="body">
+            <div class="boxImage" *ngFor="let file of fileList[input.name];let i=index;">
+              <img src="https://icon-library.com/images/png-file-icon/png-file-icon-13.jpg">
+              <button  type="button" class="btn btn-outline-danger btn-sm" (click)="removeImageGaleery(input.name,i,'file')" style="width: auto;float: right;"><i class="mdi mdi-trash-can"></i></button>
+              <a  type="button" class="btn btn-outline-success btn-sm" target="_blank" href="{{UPLOADPATH+file}}" style="width: auto;" download><i class="fe-download"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="input.type=='image'">
+        <label for="field-1" class="control-label" >{{input.label}}</label>
+        <div class="cardBody" (click)="editImage('image',input.name)">
+          <img src="{{UPLOADPATH+images[input.name]}}" class="{{input.class}}">
+        </div>
+      </div>
+
+    </div>
+  </app-kform>
+  <div style="margin-top: 10px;margin-bottom: 30px;"> 
+    <button type="button" class="btn btn-info" (click)="create()" *ngIf="typeForm==0">إضافة</button>
+    <button type="button" class="btn btn-info" (click)="update()" *ngIf="typeForm==1">حفظ</button>
+  </div>
+
+</div>
+<ng-template #modelFileManager let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">Select Image</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4">
+    <app-file-manager (selectImage)="selectImagePath($event)" [typeFiles]="typeFiles"></app-file-manager>
+  </div>
+</ng-template>

@@ -1,0 +1,68 @@
+<div class="form-body" style="text-align: right;">
+  <div class="row">
+      <div class="img-holder">
+          <div class="bg"></div>
+          <div class="info-holder">
+              <h3 style="    color: #1d4379;">تسجيل الدخول الى نظام جمعية التربية</h3>
+              <p  style="    color: #1d4379;text-align: center  ;">جمعية تعاونية للاسكان منتسبي تربية نينوى</p>
+              <img src="assets/images/back.jpeg" alt="">
+          </div>
+      </div>
+      <div class="form-holder ">
+          <div class="form-content text-left">
+              <div class="form-items text-left">
+                  <div class="website-logo-inside text-left">
+                      <a routerLink="/">
+                          <div class="logo">
+                              <img class="logo-size" src="assets/images/logo.png" alt="">
+                          </div>
+                      </a>
+                  </div>
+                  <app-ui-preloader [display]="loading"></app-ui-preloader>
+                  <div class="page-links text-left">
+                      <a class="active" >تسجيل الدخول</a>
+                  </div>
+                  <div id="recaptcha-container"></div>
+                  <div *ngIf="!phoneVirefy && !loading && windowRef && !windowRef.confirmationResult" style="direction: ltr;">
+                    <app-tell nameStatic="phonenumber" (tell)="getTell($event)"></app-tell>
+                    <button class="btn btn-info" (click)="sendCode()" style="margin-top: 10px;">إرسال الرمز</button>
+                  
+                  </div>
+                  <div *ngIf="windowRef && windowRef.confirmationResult && !phoneVirefy">
+                    <hr>
+                    <label for="code">Enter your Verification Code Here</label><br>
+                    <input type="text" name="code" #verificationCode>
+                    <button class="btn btn-info" (click)="veryFy(verificationCode.value)">تحقق</button>
+                  </div>
+                  <form class="needs-validation" name="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate *ngIf="phoneVirefy && !loading">
+
+                    <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+                  
+                    <div class="form-group mb-3">
+                      <label for="password">رقم الهاتف</label>
+                      <a class="form-control" style="color: #000;
+                      direction: ltr;
+                      font-size: 17px;
+                      border-radius: 0px;">{{phoneNumber}}</a>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label for="password">كلمة المرور</label>
+      
+                      <input type="password" formControlName="password" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="password" placeholder="كلمة المرور" style="text-align: right;" />
+      
+                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">كلمة المرور مطلوبة</div>
+                      </div>
+                    </div>
+      
+                    <div class="form-group mb-0 text-left">
+                      <button class="btn btn-info" type="submit">دخول</button>
+                    </div>
+                  </form>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

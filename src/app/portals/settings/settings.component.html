@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <app-page-title title="{{titleHeader}}" [breadcrumbItems]="title"></app-page-title>
+  
+    <div class="card-box">
+            <app-view-form
+                [routerName]="routerName"
+                [title]="title" 
+                [titleHeader]="titleHeader"
+                [inputs]="inputs"
+                [ModelType]="ModelType">
+            </app-view-form>
+    </div>
+  </div>

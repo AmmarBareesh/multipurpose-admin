@@ -1,0 +1,134 @@
+<div class="cardKey">
+  <button  class="btn btn-success btn-rounded btnAddElement" type="button" (click)="showModelAddElement(modelAddElements)"><span class="btn-label" ><i class="mdi mdi-library-plus"></i></span>Add Element </button>
+  <div class="row">
+    <div class="col-md-6" style="padding: 5px;" *ngFor="let EL of Elements">
+       <!--IMAGE-->
+      <div class="cardImage" id="{{EL.id}}" *ngIf="EL.type=='IMAGE'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}} </a>
+        </div>
+        <div class="cardBody" (click)="clickElement('IMAGE',EL.id)">
+          <img src="{{serverPath+'/'+EL.value}}" path="EL.value" >
+        </div>
+      </div>
+
+      <!--CHAR-->
+      <div class="cardChar" id="{{EL.id}}" *ngIf="EL.type=='CHAR'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}}</a>
+        </div>
+        <div class="cardBody" >
+          <input type="text" class="form-control" value="{{EL.value}}" placeholder="Insert Text" (change)="changeValueTEXT($event,EL.id)"  [attr.maxlength]="EL.TLENEGTH">
+        </div>
+      </div>
+
+       <!--TEXT-->
+      <div class="cardText" id="{{EL.id}}" *ngIf="EL.type=='TEXT'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}}</a>
+        </div>
+        <div class="cardBody" >
+          <textarea type="text" class="form-control" placeholder="Insert Text" [attr.maxlength]="EL.TLENEGTH" (change)="changeValueTEXT($event,EL.id)">{{EL.value}}</textarea>
+        </div>
+      </div>
+
+       <!--GALLERY-->
+      <div class="cardGallery" id="{{EL.id}}" *ngIf="EL.type=='GALLERY'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}}</a>
+        </div>
+        <div class="cardBody">
+          <div class="Gallery">
+            <div class="header">
+              <button  type="button" class="btn btn-outline-info btn-sm" (click)="clickElement('GALLERY',EL.id)"><i class="mdi mdi-image-plus"></i></button>
+            </div>
+            <div class="body">
+              <div class="boxImage" *ngFor="let image of EL.value;let i=index;">
+                <img src="{{serverPath+'/'+image}}">
+                <button  type="button" class="btn btn-outline-danger btn-sm" (click)="removeImage(EL.id,i)"><i class="mdi mdi-trash-can"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--CODE-->
+      <div class="cardGallery" id="{{EL.id}}" *ngIf="EL.type=='CODE'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}}</a>
+        </div>
+        <div class="cardBody">
+          <app-code IDCODE="{{EL.id}}" id="{{EL.id}}" (changeValue)="changeValueCode($event,EL.id)" VALUECODE="{{EL.value}}"></app-code>
+        </div>
+      </div>
+
+      <!--CONTENT-->
+      <div class="cardGallery" id="{{EL.id}}" *ngIf="EL.type=='CONTENT'">
+        <div class="cardInformation">
+          <a class="nameElament">{{EL.name}}</a>
+        </div>
+        <div class="cardBody" style="text-align: left;">
+          <app-keditor IDEDIT="{{EL.id}}" VALUEEDIT="{{EL.value}}" id="{{EL.id}}" (selectImage)="editImage($event,EL.type)" (changeValue)="changeValueContent($event)" ></app-keditor>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <button  class="btn btn-success btn-rounded" type="button" (click)="saveElament()" style="position: absolute;
+  bottom: -16px;
+  left: 0px;"><span class="btn-label"><i class="mdi mdi-library-plus"></i></span>Save</button>
+</div>
+
+<ng-template #modelFileManager let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">Select Image</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4">
+    <app-file-manager (selectImage)="selectImagePath($event)"></app-file-manager>
+  </div>
+</ng-template>
+<ng-template #modelAddElements let-modal="close">
+  <div class="modal-header">
+      <h4 class="modal-title">Add Elements</h4>
+      <button type="button" class="close" (click)="modal('Cross click')" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body p-4">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+            <label for="field-1" class="control-label">ID Element</label>
+            <input type="text" (keypress)="keypress($event)" (input)="changeValueId($event)" class="form-control" #idElement placeholder="ID Element" >
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+            <label for="field-1" class="control-label">Display Name</label>
+            <input type="text" class="form-control" #DisplayName   placeholder="Display Name" >
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+            <label for="field-1" class="control-label">Type Element</label>
+            <select class="form-control" #TypeElement>
+              <option value="CHAR">Text</option>
+              <option value="TEXT">Text Long</option>
+              <option value="IMAGE">Image</option>
+              <option value="GALLERY">Gallery</option>
+              <option value="CODE">Code Source</option>
+              <option value="CONTENT">Content</option>
+            </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+            <label for="field-1" class="control-label">Length <small style="color: #1e8305;">if you do not want Length Keep Value -1 </small></label>
+            <input type="number" step="1" class="form-control" #lengthElement value="-1">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button _ngcontent-qvi-c12="" type="button" class="btn btn-outline-success" (click)="CreateElemen(idElement,DisplayName.value,TypeElement.value,lengthElement.value)"><i class="mdi mdi-library-plus"></i>Create Element</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

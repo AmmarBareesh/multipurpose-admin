@@ -1,0 +1,60 @@
+<div class="card" *ngIf="isVisible">
+  <!-- card header -->
+
+  <div class="card-header bg-white text-{{ text }} h5 header-title">
+    FileManager
+
+    <div class="card-widgets">
+      <a href="javascript: void(0);" (click)="refreshContent()"><i class="mdi mdi-refresh"></i></a>
+    </div>
+
+  </div>
+
+  <!-- End card header -->
+
+  <div id="cardCollpase5">
+    <div class="cardFileManager">
+      <div class="header">
+        <input class="pathInput form-control" type="text" readonly value="{{direction}}">
+        <button type="button" class="btn btn-outline-secondary ng-star-inserted pathBtn" (click)="backFile()"><i class="fe-arrow-left"></i></button>
+        <button type="button" class="btn btn-outline-secondary ng-star-inserted pathBtn" (click)="showModelCreateFloder(NameFolder)"><i class="fe-folder-plus"></i></button>
+      </div>
+      <div class="body style-7">
+        <ngx-file-drop dropZoneLabel="" class="dropFile" contentClassName="contentDrop" (onFileDrop)="dropped($event)"    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" (click)="clickFileStl(18)"></ngx-file-drop>
+        <div class="cardFile" (contextmenu)="contextmenu($event,file)" *ngFor="let file of fileFolder" (click)="clickFile(file.path,file.type,file.nameFile)">
+          <img class="{{file.type==1?'imgFolder':'imgFile'}} {{file.typeFile=='.pdf'?'pdf':'pdf'}}"  src="{{file.type==1?'https://www.vippng.com/png/detail/207-2078677_png-file-svg-white-folder-icon-png.png':(file.upload?file.path:(file.typeFile=='.pdf'?'https://icon-library.com/images/png-file-icon/png-file-icon-13.jpg':serverPath+'/'+file.path))}}" style="object-fit: contain;">
+          <a ngbTooltip="{{file.nameFile}}" *ngIf="file.type" >{{file.nameFile.length > 10 ?file.nameFile.substring(0,10)+'..':file.nameFile}}</a>
+          <a ngbTooltip="{{file.nameFile}}" *ngIf="file.typeFile=='.pdf'" >{{file.nameFile.length > 10 ?file.nameFile.substring(0,10)+'..':file.nameFile}}</a>
+          <div class="fileUpload" *ngIf="file.upload==1 || file.upload==2">
+            <ngb-progressbar type="success" *ngIf="file.upload!=2" [value]="file.uploadNumber" style="display: block; position: relative; top: 72px;" ></ngb-progressbar>
+            <div class="success-animation" *ngIf="file.upload==2">
+              <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"></circle><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path></svg>
+            </div>
+          </div>
+        </div>
+        <div class="cardCreateFile" style="display: none;">
+          <div class="body">
+            <label style="float: left;">Name Folder :</label>
+            <input class="pathInput form-control" type="text" #NameFolder value="" style="border-radius: 0px;max-width: 75%;float: left;">
+            <button type="button" class="btn btn-outline-primary ng-star-inserted pathBtn" (click)="createFile(NameFolder)" style="border-radius: 0px;float: left;">Create</button>
+            <button type="button" class="btn btn-outline-secondary ng-star-inserted pathBtn" (click)="cancel(NameFolder)" style="border-radius: 0px;float: left;">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-disabled" *ngIf="isLoading">
+    <div class="spinner-border avatar-lg text-primary m-2 refreshLoadd" role="status"></div>
+  </div>
+
+  <div class="fullCardContextMenu" id="fccmkiven" style="display: none;"   (click)="fullCardContextMenu($event)" (contextmenu)="fullCardContextMenu($event)">
+    <div class="contextMenu" id="contextMenu">
+      <div class="items" (click)="deleteFile()"> <i class="fe-trash-2"></i>Delete</div>
+      <div class="items"> <i class="fe-copy"></i>Copy</div>
+      <div class="items"> <i class="fe-edit"></i>Edit</div>
+    </div>
+  </div>
+
+</div>

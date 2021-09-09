@@ -1,0 +1,394 @@
+<!-- ========== Left Sidebar Start ========== -->
+<ng-template #contentTemplate>
+  <!--- Sidemenu -->
+  <div id="sidebar-menu">
+    <ul class="metismenu" id="side-menu" #sideMenu>
+      <li class="dropdown notification-list" ngbDropdown>
+        <a
+          class="
+            nav-link
+            dropdown-toggle
+            nav-user
+            mr-0
+            waves-effect waves-light
+          "
+          ngbDropdownToggle
+          id="profileDropdown"
+          href="javascript: void(0);"
+          role="button"
+          aria-haspopup="false"
+          aria-expanded="false"
+        >
+          <img
+            src="assets/images/users/user-2.jpeg"
+            alt="user-image"
+            class="rounded-circle"
+          />
+          <span class="pro-user-name ml-1">
+            عمار باريش <i class="mdi mdi-chevron-down"></i>
+          </span>
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right profile-dropdown"
+          aria-labelledby="profileDropdown"
+          ngbDropdownMenu
+        >
+          <div class="dropdown-header noti-title">
+            <h6 class="text-overflow m-0">مرحبا بك !</h6>
+          </div>
+
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+            <i class="fe-user"></i>
+            <span>حسابك الشخصي</span>
+          </a>
+
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+            <i class="fe-settings"></i>
+            <span>الاعدادات</span>
+          </a>
+
+          <div class="dropdown-divider"></div>
+
+          <!-- item-->
+          <a
+            href="javascript:void(0);"
+            class="dropdown-item notify-item"
+            (click)="logout()"
+          >
+            <i class="fe-log-out"></i>
+            <span>تسجيل الخروج</span>
+          </a>
+        </div>
+      </li>
+
+      <li class="menu-title">القائمة</li>
+      <!-- نظرة عامة  -->
+      <li *ngIf="permission && permission.static['edit'] || permission.static['insert'] || permission.static['update'] || permission.static['delete']">
+        <a routerLink="/static" class="waves-effect">
+          <i class="fa fa-chart-pie"></i>
+          <span> نظرة عامة </span>
+        </a>
+      </li>
+      <!-- الإعدادات -->
+      <li>
+        <a class="waves-effect">
+          <i class="fe-settings"></i>
+          <span> الإعدادات </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+          <li *ngIf="permission && permission.generalsetting['edit'] || permission.generalsetting['insert'] || permission.generalsetting['update'] || permission.generalsetting['delete']">
+            <a routerLink="/Settings" class="waves-effect">
+              <i class="fa fa-cog"></i>
+              <span> الاعدادات العامة </span>
+            </a>
+          </li>
+
+          <li *ngIf="permission && permission.projects['edit'] || permission.projects['insert'] || permission.projects['update'] || permission.projects['delete']">
+            <a
+              routerLink="/Projects"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-map"></i> المشاريع</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.users['edit'] || permission.users['insert'] || permission.users['update'] || permission.users['delete']">
+            <a
+              routerLink="/Users"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-users"></i> مستخدمي النظام</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.banks['edit'] || permission.banks['insert'] || permission.banks['update'] || permission.banks['delete']">
+            <a
+              routerLink="/Banks"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-university"></i> المصارف والبنوك</a
+            >
+          </li>
+        </ul>
+      </li>
+      <!-- الادارة -->
+      <li>
+        <a href="javascript: void(0);" class="waves-effect">
+          <i class="fa fa-sitemap"></i>
+          <span> الادارة </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+          <li *ngIf="permission && permission.administrativeboard['edit'] || permission.administrativeboard['insert'] || permission.administrativeboard['update'] || permission.administrativeboard['delete']">
+            <a
+              routerLink="/Administrative_board"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-user"></i> مجلس الادارة</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.generalauthority['edit'] || permission.generalauthority['insert'] || permission.generalauthority['update'] || permission.generalauthority['delete']">
+            <a
+              routerLink="/General_authority"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-users"></i> الهيئة العامة</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.joinrequest['edit'] || permission.joinrequest['insert'] || permission.joinrequest['update'] || permission.joinrequest['delete']">
+            <a
+              routerLink="/Join_request"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-id-card"></i> طلبات الانتساب</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.employees['edit'] || permission.employees['insert'] || permission.employees['update'] || permission.employees['delete']">
+            <a
+              routerLink="/Employees"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-address-book"></i> الموظفين</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.officialbooks['edit'] || permission.officialbooks['insert'] || permission.officialbooks['update'] || permission.officialbooks['delete']">
+            <a
+              routerLink="/Official_books"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-address-book"></i> الكتب الرسمية</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.meetings['edit'] || permission.meetings['insert'] || permission.meetings['update'] || permission.meetings['delete']">
+            <a
+              routerLink="/Meetings"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-gavel"></i> محاضر الاجتماع</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.incomingbooks['edit'] || permission.incomingbooks['insert'] || permission.incomingbooks['update'] || permission.incomingbooks['delete']">
+            <a
+              routerLink="/Incoming_books"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-envelope"></i>الكتب الواردة</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.officialvisits['edit'] || permission.officialvisits['insert'] || permission.officialvisits['update'] || permission.officialvisits['delete']">
+            <a
+              routerLink="/Official_visits"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-newspaper"></i>الزيارات الرسمية</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.fixedassets['edit'] || permission.fixedassets['insert'] || permission.fixedassets['update'] || permission.fixedassets['delete']">
+            <a
+              routerLink="/Fixed_assets"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-archive"></i> الموجودات الثابتة</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.tabsandstatement['edit'] || permission.tabsandstatement['insert'] || permission.tabsandstatement['update'] || permission.tabsandstatement['delete']">
+            <a
+              routerLink="/tabsandstatement"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fe-aperture"></i>التبويب والبيان</a
+            >
+          </li>
+
+        </ul>
+      </li>
+      <!-- المبيعات -->
+      <li >
+        <a href="javascript: void(0);" class="waves-effect">
+          <i class="fa fa-briefcase" aria-hidden="true"></i>
+          <span> المبيعات </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+          <li *ngIf="permission && permission.map['edit'] || permission.map['insert'] || permission.map['update'] || permission.map['delete']">
+            <a
+              routerLink="/Map"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-map"></i> الخريطة</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.contracts['edit'] || permission.contracts['insert'] || permission.contracts['update'] || permission.contracts['delete']">
+            <a
+              routerLink="/Contracts"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-handshake"></i> العقود</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.installments['edit'] || permission.installments['insert'] || permission.installments['update'] || permission.installments['delete']">
+            <a
+              routerLink="/Contractss/:id"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fe-layout"></i> الاقساط</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.reservation['edit'] || permission.reservation['insert'] || permission.reservation['update'] || permission.reservation['delete']">
+            <a
+              routerLink="/Reservation"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-random"></i> الحجز</a
+            >
+          </li>
+
+        </ul>
+      </li>
+      <!-- الحسابات -->
+      <li>
+        <a href="javascript: void(0);" class="waves-effect">
+          <i class="fa fa-comment-dollar" aria-hidden="true"></i>
+          <span> الحسابات </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+          <li *ngIf="permission && permission.receiptreceived['edit'] || permission.receiptreceived['insert'] || permission.receiptreceived['update'] || permission.receiptreceived['delete']">
+            <a
+              routerLink="/Receipt_received"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-database"></i> وصل القبض</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.exchangedocument['edit'] || permission.exchangedocument['insert'] || permission.exchangedocument['update'] || permission.exchangedocument['delete']">
+            <a
+              routerLink="/Exchange_document"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-handshake"></i> مستند الصرف</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.entrydocument['edit'] || permission.entrydocument['insert'] || permission.entrydocument['update'] || permission.entrydocument['delete']">
+            <a
+              routerLink="/Entry_document"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-file"></i> مستند القيد</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.creditor['edit'] || permission.creditor['insert'] || permission.creditor['update'] || permission.creditor['delete']">
+            <a
+              routerLink="/Creditor"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-cube"></i> الصندوق ( دائن )</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.debit['edit'] || permission.debit['insert'] || permission.debit['update'] || permission.debit['delete']">
+            <a
+              routerLink="/Debit"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-minus-circle"></i>الصندوق ( مدين )</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.bankaccounts['edit'] || permission.bankaccounts['insert'] || permission.bankaccounts['update'] || permission.bankaccounts['delete']">
+            <a
+              routerLink="/Bank_accounts"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-university"></i>حسابات البنوك</a
+            >
+          </li>
+
+          <li *ngIf="permission && permission.treasury['edit'] || permission.treasury['insert'] || permission.treasury['update'] || permission.treasury['delete']">
+            <a
+              routerLink="/Treasury"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              ><i class="fa fa-th"></i>الخزنة</a
+            >
+          </li>
+          
+        </ul>
+      </li>
+      <!-- التقارير -->
+
+
+      <li *ngIf="permission && permission.reports['edit'] || permission.reports['insert'] || permission.reports['update'] || permission.reports['delete']">
+        <a class="waves-effect">
+          <i class="fa fa-filter"></i>
+            <span> التقارير </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+            <li>
+                <a routerLink="/Receivablereports"  class="side-nav-link-ref"><i class="fa fa-database" ></i> تقارير المقبوضات</a>
+            </li>
+
+            <li>
+              <a routerLink="/LateReports"  class="side-nav-link-ref"><i class="fa fa-file" ></i> تقارير المتأخرين</a>
+          </li>
+
+          <li>
+            <a routerLink="/SpecialExpense"  class="side-nav-link-ref"><i class="fa fa-cube" ></i>  تقارير المصروفات حسب
+              نظام الجمعية الخاص</a>
+        </li>
+
+        <li>
+          <a routerLink="/SalesReports" class="side-nav-link-ref"><i class="fa fa-comment-dollar" ></i> تقارير المبيعات</a>
+      </li>
+        </ul>
+    </li>
+
+      
+      <!-- <li>
+              <a href="javascript: void(0);" class="waves-effect">
+                  <i class="fe-settings"></i>
+                  <span> الإعدادات </span>
+                  <span class="menu-arrow"></span>
+              </a>
+              <ul class="nav-second-level collapse" aria-expanded="false">
+                  <li >
+                      <a routerLink="/settings/users/list" routerLinkActive="active" class="side-nav-link-ref"><i class="fe-users" ></i> المشاريع</a>
+                  </li>
+              </ul>
+          </li> -->
+    </ul>
+  </div>
+  <!-- End Sidebar -->
+
+  <div class="clearfix"></div>
+</ng-template>
+
+<div class="left-side-menu">
+  <div class="slimscroll-menu" appSlimScroll *ngIf="!isCondensed">
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  </div>
+
+  <div class="slimscroll-menu" *ngIf="isCondensed">
+    <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+  </div>
+</div>
+<!-- Left Sidebar End -->
